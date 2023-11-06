@@ -1,16 +1,11 @@
-# This is a sample Python script.
+from rule import Rule
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    internal_path = './data/internal'
+    rule_id = 1
+    category = "三农业务部-制度"
+    name = '《代收代付业务管理办法》'
+    path = './data/internal/三农业务部-制度/《代收代付业务管理办法》.docx'
+    rule = Rule(rule_id, name, category, path)
+    print(rule.words)
+    print(rule.word_count)
