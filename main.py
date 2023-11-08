@@ -1,11 +1,29 @@
-from rule import Rule
+import os
+
+from flask import Flask
+
+from rule import Rule, get_rules
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def hello():
+    return "Hello, World!"
+
+
+@app.route('/cut/')
+def getCut():
+    return rule.words
+
+
+
 
 if __name__ == '__main__':
     internal_path = './data/internal'
-    rule_id = 1
-    category = "三农业务部-制度"
-    name = '《代收代付业务管理办法》'
-    path = './data/internal/三农业务部-制度/《代收代付业务管理办法》.docx'
-    rule = Rule(rule_id, name, category, path)
-    print(rule.words)
-    print(rule.word_count)
+    rules = get_rules(internal_path)
+    rule = rules[0]
+    print(len(rules))
+    # print(rule.words)
+    # print(rule.word_count)
+    # app.run()
