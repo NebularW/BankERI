@@ -6,8 +6,7 @@ def cut_words(text):
     # jieba 默认启用了HMM（隐马尔科夫模型）进行中文分词
     seg_list = jieba.lcut(text, cut_all=True)
     word_list = remove_stopword(seg_list)
-    word_count = Counter(word_list)
-    return word_list, word_count
+    return word_list
 
 
 def remove_stopword(seg_list):

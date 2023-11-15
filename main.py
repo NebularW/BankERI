@@ -1,7 +1,8 @@
+import json
 import os
 
 from flask import Flask, request
-from gensim import corpora,models,similarities
+from gensim import corpora, models, similarities
 
 from rule import get_external_rule, get_original_text, get_internal_rules
 
@@ -28,7 +29,7 @@ def external_text():
     external_rule_slice = external_rule.split('.')
     for i in range(len(external_rule_slice)):
         if external_rule_slice[i] == 'text':
-            return external_rule_slice[i+1]
+            return external_rule_slice[i + 1]
     return external_rule
 
 
@@ -38,10 +39,13 @@ def calculate():
     external_rule = get_external_rule(external_path, name).words
     external_rule_vec = dictionary.doc2bow(external_rule)
     sim = index[tfidf[external_rule_vec]]
-    result = sorted(enumerate(sim), key=lambda item: -item[1])
-    
-    print(result)
-    return result
+    array = sorted(enumerate(sim), key=lambda item: -item[1])
+    result = []
+    for i in range(10):
+        rule = internal_rules[array[i][0]]
+        result.append(json.dumps(rule.__dict__), ensure_ascii=False)
+    print(json.dumps(result), ensure_ascii=False)
+    return json.dumps(result, ensure_ascii=False)
 
 
 if __name__ == '__main__':

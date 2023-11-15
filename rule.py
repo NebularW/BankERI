@@ -5,7 +5,7 @@ import cut
 
 
 def get_internal_rules(root_dir):
-    index = 1
+    index = 0
     rules = []
     for dir_path, dir_names, filenames in os.walk(root_dir):
         for filename in filenames:
@@ -49,11 +49,12 @@ class Rule:
         self.category = category
         self.path = path
         self.text = get_chinese_text(path)
-        self.words, self.word_count = cut.cut_words(self.text)
+        self.words = cut.cut_words(self.text)
+        self.sim = 0.0
 
     def __str__(self):
         return (f'Rule id:{self.rule_id}\n'
                 f'name:{self.name}\n'
                 f'category:{self.category}\n'
-                f'text:{self.text}\n'
-                f'word_count:{self.word_count}')
+                f'text:{self.text}\n')
+
