@@ -1,11 +1,8 @@
 import json
 import os
-
 from flask import Flask, request
 from gensim import corpora, models, similarities
-
 from process import get_external_rule, get_original_text, get_internal_rules
-
 app = Flask(__name__)
 
 
