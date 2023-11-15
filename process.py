@@ -51,4 +51,3 @@ class Rule:
         self.text = get_chinese_text(path)
         self.words = cut.cut_words(self.text)
         self.sim = 0.0
-

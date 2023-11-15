@@ -1,5 +1,4 @@
 import jieba
-from collections import Counter
 
 
 def cut_words(text):

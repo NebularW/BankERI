@@ -4,7 +4,7 @@ import os
 from flask import Flask, request
 from gensim import corpora, models, similarities
 
-from rule import get_external_rule, get_original_text, get_internal_rules
+from process import get_external_rule, get_original_text, get_internal_rules
 
 app = Flask(__name__)
 
@@ -26,9 +26,9 @@ def external_text():
     name = request.args.get('name')
     path = os.path.join(external_path, name + '.txt')
     external_rule = get_original_text(path)
-    external_rule_slice = external_rule.split('.')
+    external_rule_slice = external_rule.split(': ')
     for i in range(len(external_rule_slice)):
-        if external_rule_slice[i] == 'text':
+        if 'text' in external_rule_slice[i]:
             return external_rule_slice[i + 1]
     return external_rule
 
