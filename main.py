@@ -43,9 +43,11 @@ def calculate():
     result = []
     for i in range(10):
         rule = internal_rules[array[i][0]]
-        result.append(json.dumps(rule.__dict__), ensure_ascii=False)
-    print(json.dumps(result), ensure_ascii=False)
-    return json.dumps(result, ensure_ascii=False)
+        rule.sim = float(array[i][1])
+        element = {'sim': rule.sim, 'name': rule.name, 'category': rule.category, 'text': rule.text}
+        result.append(element)
+    result_str = json.dumps(result, ensure_ascii=False)
+    return result_str
 
 
 if __name__ == '__main__':
@@ -57,4 +59,4 @@ if __name__ == '__main__':
     corpus = [dictionary.doc2bow(doc) for doc in internal_rule_list]
     tfidf = models.TfidfModel(corpus)
     index = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary.keys()))
-    app.run(debug=True)
+    app.run()

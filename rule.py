@@ -52,9 +52,3 @@ class Rule:
         self.words = cut.cut_words(self.text)
         self.sim = 0.0
 
-    def __str__(self):
-        return (f'Rule id:{self.rule_id}\n'
-                f'name:{self.name}\n'
-                f'category:{self.category}\n'
-                f'text:{self.text}\n')
-
