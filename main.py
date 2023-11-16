@@ -56,4 +56,4 @@ if __name__ == '__main__':
     corpus = [dictionary.doc2bow(doc) for doc in internal_rule_list]
     tfidf = models.TfidfModel(corpus)
     index = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary.keys()))
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
