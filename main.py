@@ -2,7 +2,8 @@ import json
 import os
 from flask import Flask, request
 from gensim import corpora, models, similarities
-from process import get_external_rule, get_original_text, get_internal_rules
+from process import get_external_rule, get_original_text, get_internal_rules, Rule
+
 app = Flask(__name__)
 
 
@@ -31,9 +32,22 @@ def external_text():
 
 
 @app.route('/cal')
-def calculate():
+def cal():
     name = request.args.get('name')
     external_rule = get_external_rule(external_path, name).words
+    result_str = calculate(external_rule)
+    return result_str
+
+
+@app.route('/upload')
+def upload():
+    text = request.args.get('text')
+    external_rule = Rule(0, '', '', '', text).words
+    result_str = calculate(external_rule)
+    return result_str
+
+
+def calculate(external_rule):
     external_rule_vec = dictionary.doc2bow(external_rule)
     sim = index[tfidf[external_rule_vec]]
     array = sorted(enumerate(sim), key=lambda item: -item[1])
@@ -41,7 +55,7 @@ def calculate():
     for i in range(10):
         rule = internal_rules[array[i][0]]
         rule.sim = float(array[i][1])
-        element = {'sim': rule.sim, 'name': rule.name, 'category': rule.category, 'text': rule.text}
+        element = {'sim': rule.sim, 'name': rule.name, 'category': rule.category, 'text': rule.ori}
         result.append(element)
     result_str = json.dumps(result, ensure_ascii=False)
     return result_str
