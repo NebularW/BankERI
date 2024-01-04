@@ -5,6 +5,14 @@ from gensim import corpora, models, similarities
 from process import get_external_rule, get_original_text, get_internal_rules, Rule
 
 app = Flask(__name__)
+internal_path = './data/internal'
+external_path = './data/external'
+internal_rules = get_internal_rules(internal_path)
+internal_rule_list = [rule.words for rule in internal_rules]
+dictionary = corpora.Dictionary(internal_rule_list)
+corpus = [dictionary.doc2bow(doc) for doc in internal_rule_list]
+tfidf = models.TfidfModel(corpus)
+index = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary.keys()))
 
 
 @app.route('/')
@@ -62,12 +70,4 @@ def calculate(external_rule):
 
 
 if __name__ == '__main__':
-    internal_path = './data/internal'
-    external_path = './data/external'
-    internal_rules = get_internal_rules(internal_path)
-    internal_rule_list = [rule.words for rule in internal_rules]
-    dictionary = corpora.Dictionary(internal_rule_list)
-    corpus = [dictionary.doc2bow(doc) for doc in internal_rule_list]
-    tfidf = models.TfidfModel(corpus)
-    index = similarities.SparseMatrixSimilarity(tfidf[corpus], num_features=len(dictionary.keys()))
     app.run(host='0.0.0.0', port=5000)
