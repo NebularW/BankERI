@@ -39,7 +39,7 @@ def cal():
     return result_str
 
 
-@app.route('/upload', method=['POST'])
+@app.route('/upload', methods=['POST'])
 def upload():
     text = request.args.get('text')
     external_rule = Rule(0, '', '', '', text).words
